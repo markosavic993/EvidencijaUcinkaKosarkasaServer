@@ -67,6 +67,17 @@ public class Kontroler {
         }
         return false;
     }
+    
+    public Korisnik vratiKorisnika(String username, String password) {
+        Korisnik k = new Korisnik(username, password);
+        List<Korisnik> listaKorisnika = vratiSveKorisnike();
+        for (Korisnik korisnik : listaKorisnika) {
+            if (k.equals(korisnik)) {
+                return korisnik;
+            }
+        }
+        return null;
+    }
 
     public List<Tim> vratiListuTimova() {
         List<Tim> listaTimova = null;
