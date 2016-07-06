@@ -40,9 +40,12 @@ import so.tim.VratiTimovePremaKriterijumuSO;
 import so.tip_ucinka.DodajTipUcinkaSO;
 import so.tip_ucinka.ObrisiTipUcinkaSO;
 import so.tip_ucinka.VratiTipoveUcinakaSO;
+import so.ucinak.DodajUcinakSO;
 import so.ucinak.VratiUcinkeSaUtakmiceSO;
+import so.utakmica.AzurirajUtakmicuSO;
 import so.utakmica.DodajUtakmicuSO;
 import so.utakmica.VratiIDUtakmiceSO;
+import so.utakmica.VratiPoeneDomacinaIGostaSO;
 import so.utakmica.VratiUtakmiceSO;
 
 /**
@@ -121,7 +124,6 @@ public class Kontroler {
         int brojTimova = 0;
         OpstaSO so = new VratiIDTimaSO();
         so.izvrsiOperaciju(new Tim());
-        System.out.println("*************" + (int)so.getObjekat());
         brojTimova = (int) so.getObjekat();
 
         return brojTimova;
@@ -209,12 +211,15 @@ public class Kontroler {
         return lista;
     }
     
-   public void sacuvajListuUcinaka(List<Ucinak> lista) {
+   public void sacuvajListuUcinaka(List<Ucinak> lista) throws Exception {
        Utakmica u = lista.get(0).getUtakmica();
         try {
-            broker.uspostaviKonekciju();
-            int brojPoenaDomacin = broker.vratiBrojPoenaDomacinaIGosta(u)[0];
-            int brojPoenaGost = broker.vratiBrojPoenaDomacinaIGosta(u)[1];
+            //broker.uspostaviKonekciju();
+            OpstaSO so = new VratiPoeneDomacinaIGostaSO();
+            so.izvrsiOperaciju(u);
+            Utakmica utakmica =  (Utakmica) so.getObjekat();
+            int brojPoenaDomacin = utakmica.getPoeniDomacin();
+            int brojPoenaGost = utakmica.getPoeniGost();
             for (Ucinak ucinak : lista) {
                 if(ucinak.getTipUcinka().getNaziv().equals("Poeni") && 
                         ucinak.getKosarkas().getTimZaKojiNastupa().equals(ucinak.getUtakmica().getDomacin())) {
@@ -226,12 +231,17 @@ public class Kontroler {
                     brojPoenaGost+=ucinak.getVrednost();
                 }
                 u = ucinak.getUtakmica();
-                broker.ubaciNoviUcinak(ucinak);
-                broker.potvrdiTransakciju();
+//                broker.ubaciNoviUcinak(ucinak);
+//                broker.potvrdiTransakciju();
+                OpstaSO sisOp = new DodajUcinakSO();
+                sisOp.izvrsiOperaciju(ucinak);
             }
-            
-            broker.azurirajRezultatUtakmice(u, brojPoenaDomacin, brojPoenaGost);
-            broker.potvrdiTransakciju();
+            u.setPoeniDomacin(brojPoenaDomacin);
+            u.setPoeniGost(brojPoenaGost);
+            OpstaSO operacija = new AzurirajUtakmicuSO();
+            operacija.izvrsiOperaciju(u);
+//            broker.azurirajRezultatUtakmice(u, brojPoenaDomacin, brojPoenaGost);
+//            broker.potvrdiTransakciju();
             
         } catch (ClassNotFoundException ex) {
             Logger.getLogger(Kontroler.class.getName()).log(Level.SEVERE, null, ex);

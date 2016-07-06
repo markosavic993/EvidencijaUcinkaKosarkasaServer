@@ -499,7 +499,7 @@ public class BrokerBazePodataka {
     public int[] vratiBrojPoenaDomacinaIGosta(Utakmica u) {
         int[] niz = new int[2];
         String upit = "SELECT poeni_domacin, poeni_gost FROM utakmica WHERE id = ?";
-        System.out.println(u == null);
+        //System.out.println(u == null);
         try {
             PreparedStatement ps = konekcija.prepareStatement(upit);
             ps.setInt(1, u.getIdUtakmice());
