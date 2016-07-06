@@ -59,6 +59,7 @@ public class FrmServerMain extends javax.swing.JFrame {
         jMenu2 = new javax.swing.JMenu();
         jMenuItem1 = new javax.swing.JMenuItem();
         jMenuItem2 = new javax.swing.JMenuItem();
+        jMenuItem5 = new javax.swing.JMenuItem();
         jMenuItem3 = new javax.swing.JMenuItem();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DO_NOTHING_ON_CLOSE);
@@ -117,6 +118,14 @@ public class FrmServerMain extends javax.swing.JFrame {
             }
         });
         jMenu2.add(jMenuItem2);
+
+        jMenuItem5.setText(" O bazi");
+        jMenuItem5.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem5ActionPerformed(evt);
+            }
+        });
+        jMenu2.add(jMenuItem5);
 
         jMenuItem3.setText("O autoru");
         jMenuItem3.addActionListener(new java.awt.event.ActionListener() {
@@ -209,6 +218,10 @@ public class FrmServerMain extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_formWindowClosing
 
+    private void jMenuItem5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem5ActionPerformed
+        JOptionPane.showMessageDialog(this, "URL: jdbc:mysql://localhost:3306/evidencija_ucinka_kosarkasa" + "\n" + "User: root" + "\n" + "Password: \"\"", "O autoru", JOptionPane.INFORMATION_MESSAGE);
+    }//GEN-LAST:event_jMenuItem5ActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -253,6 +266,7 @@ public class FrmServerMain extends javax.swing.JFrame {
     private javax.swing.JMenuItem jMenuItem2;
     private javax.swing.JMenuItem jMenuItem3;
     private javax.swing.JMenuItem jMenuItem4;
+    private javax.swing.JMenuItem jMenuItem5;
     private javax.swing.JButton jbtnPokreniServer;
     private javax.swing.JButton jbtnZaustavi;
     // End of variables declaration//GEN-END:variables

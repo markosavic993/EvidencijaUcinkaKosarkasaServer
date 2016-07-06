@@ -114,7 +114,7 @@ public class BrokerBazePodataka {
             ResultSet rs = ps.executeQuery();
 
             while (rs.next()) {
-                if (rs.getInt("sifratima") != 0) {
+                if (rs.getInt("sifratima") != 1) {
                     lt.add(new Tim(rs.getInt("sifratima"), rs.getString("naziv"), rs.getInt("godinaosnivanja"), rs.getString("grad"), rs.getString("hala")));
                 }
             }
@@ -361,7 +361,8 @@ public class BrokerBazePodataka {
     }
 
     public List<Utakmica> vratiUtakmice() {
-        String upit = "SELECT u.id, u.datum, t.sifratima, t.naziv, t.godinaosnivanja, t.grad, t.hala, t2.sifratima AS sifra, t2.naziv AS n, t2.godinaosnivanja AS godina, t2.grad AS g, t2.hala AS h, u.poeni_domacin, u.poeni_gost FROM utakmica u JOIN tim t ON (u.domacin = t.sifratima) JOIN tim t2 ON (u.gost = t2.sifratima) ORDER BY datum DESC";
+        String upit = "SELECT u.id, u.datum, t.sifratima, t.naziv, t.godinaosnivanja, t.grad, t.hala, t2.sifratima AS sifra, t2.naziv AS n, t2."
+                + "godinaosnivanja AS godina, t2.grad AS g, t2.hala AS h, u.poeni_domacin, u.poeni_gost FROM utakmica u JOIN tim t ON (u.domacin = t.sifratima) JOIN tim t2 ON (u.gost = t2.sifratima) ORDER BY datum DESC";
         List<Utakmica> lu = new ArrayList<>();
 
         try {

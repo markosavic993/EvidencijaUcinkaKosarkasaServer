@@ -6,6 +6,8 @@
 package poslovnalogika;
 
 import bp.BrokerBazePodataka;
+import bp.DBBroker;
+import domen.DomenskiObjekat;
 import domen.Korisnik;
 import domen.Kosarkas;
 import domen.Tim;
@@ -19,6 +21,29 @@ import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
+import so.OpstaSO;
+import so.korisnik.AzurirajKorisnikaSO;
+import so.korisnik.DodajKorisnikaSo;
+import so.korisnik.VratiSveKorisnikeSO;
+import so.kosarkas.AzurirajKosarkaseNakonBrisanjaTimaSO;
+import so.kosarkas.DodajKosarkasaSO;
+import so.kosarkas.IzmeniKosarkasaSO;
+import so.kosarkas.ObrisiKosarkasaSO;
+import so.kosarkas.VratiKosarkasePremaKriterijumuSO;
+import so.kosarkas.VratiKosarkaseSO;
+import so.tim.DodajTimSO;
+import so.tim.IzmeniTimSO;
+import so.tim.ObrisiTimSO;
+import so.tim.VratiIDTimaSO;
+import so.tim.VratiSveTimoveSO;
+import so.tim.VratiTimovePremaKriterijumuSO;
+import so.tip_ucinka.DodajTipUcinkaSO;
+import so.tip_ucinka.ObrisiTipUcinkaSO;
+import so.tip_ucinka.VratiTipoveUcinakaSO;
+import so.ucinak.VratiUcinkeSaUtakmiceSO;
+import so.utakmica.DodajUtakmicuSO;
+import so.utakmica.VratiIDUtakmiceSO;
+import so.utakmica.VratiUtakmiceSO;
 
 /**
  *
@@ -42,22 +67,15 @@ public class Kontroler {
         return instanca;
     }
 
-    public List<Korisnik> vratiSveKorisnike() {
-        List<Korisnik> listaKorisnika = null;
-        try {
-            broker.uspostaviKonekciju();
-            listaKorisnika = broker.vratiSveKorisnike();
-            broker.raskiniKonekciju();
-        } catch (ClassNotFoundException ex) {
-            Logger.getLogger(Kontroler.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (SQLException ex) {
-            Logger.getLogger(Kontroler.class.getName()).log(Level.SEVERE, null, ex);
-        }
-
-        return listaKorisnika;
+    public List<Korisnik> vratiSveKorisnike() throws Exception {
+        List<Korisnik> lk = null;
+        OpstaSO so = new VratiSveKorisnikeSO();
+        so.izvrsiOperaciju(new Korisnik());
+        lk = (List<Korisnik>) so.getObjekat();
+        return lk;
     }
 
-    public boolean autorizujKorisnika(String username, String password) {
+    public boolean autorizujKorisnika(String username, String password) throws Exception {
         Korisnik k = new Korisnik(username, password);
         List<Korisnik> listaKorisnika = vratiSveKorisnike();
         for (Korisnik korisnik : listaKorisnika) {
@@ -68,7 +86,7 @@ public class Kontroler {
         return false;
     }
     
-    public Korisnik vratiKorisnika(String username, String password) {
+    public Korisnik vratiKorisnika(String username, String password) throws Exception {
         Korisnik k = new Korisnik(username, password);
         List<Korisnik> listaKorisnika = vratiSveKorisnike();
         for (Korisnik korisnik : listaKorisnika) {
@@ -79,220 +97,114 @@ public class Kontroler {
         return null;
     }
 
-    public List<Tim> vratiListuTimova() {
+    public List<Tim> vratiListuTimova() throws Exception {
         List<Tim> listaTimova = null;
 
-        try {
-            broker.uspostaviKonekciju();
-            listaTimova = broker.vratiSveTimove();
-            broker.raskiniKonekciju();
-        } catch (ClassNotFoundException ex) {
-            Logger.getLogger(Kontroler.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (SQLException ex) {
-            Logger.getLogger(Kontroler.class.getName()).log(Level.SEVERE, null, ex);
-        }
+        OpstaSO so = new VratiSveTimoveSO();
+        so.izvrsiOperaciju(new Tim());
+        listaTimova = (List<Tim>) so.getObjekat();
 
         return listaTimova;
     }
 
-    public List<Tim> vratiListuTimovaPremaKriterijumu(String kriterijum) {
+    public List<Tim> vratiListuTimovaPremaKriterijumu(String kriterijum) throws Exception {
         List<Tim> listaTimova = null;
 
-        try {
-            broker.uspostaviKonekciju();
-            listaTimova = broker.vratiTimovePremaKriterijumu(kriterijum);
-            broker.raskiniKonekciju();
-        } catch (ClassNotFoundException ex) {
-            Logger.getLogger(Kontroler.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (SQLException ex) {
-            Logger.getLogger(Kontroler.class.getName()).log(Level.SEVERE, null, ex);
-        }
+        OpstaSO so = new VratiTimovePremaKriterijumuSO();
+        so.izvrsiOperaciju(new Tim(kriterijum));
+        listaTimova = (List<Tim>) so.getObjekat();
 
         return listaTimova;
     }
     
-    public int vratiBrojTimova() {
+    public int vratiBrojTimova() throws Exception {
         int brojTimova = 0;
-        try {
-            broker.uspostaviKonekciju();
-            brojTimova = broker.vratiBrojTimova();
-            broker.raskiniKonekciju();
-        } catch (ClassNotFoundException ex) {
-            Logger.getLogger(Kontroler.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (SQLException ex) {
-            Logger.getLogger(Kontroler.class.getName()).log(Level.SEVERE, null, ex);
-        }
+        OpstaSO so = new VratiIDTimaSO();
+        so.izvrsiOperaciju(new Tim());
+        System.out.println("*************" + (int)so.getObjekat());
+        brojTimova = (int) so.getObjekat();
 
         return brojTimova;
     }
 
-    public void sacuvajTim(Tim t) {
-        try {
-            broker.uspostaviKonekciju();
-            broker.sacuvajTim(t);
-            broker.potvrdiTransakciju();
-            broker.raskiniKonekciju();
-        } catch (ClassNotFoundException ex) {
-            Logger.getLogger(Kontroler.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (SQLException ex) {
-            Logger.getLogger(Kontroler.class.getName()).log(Level.SEVERE, null, ex);
-        }
+    public void sacuvajTim(Tim t) throws Exception {
+        OpstaSO so = new DodajTimSO();
+        so.izvrsiOperaciju(t);
     }
 
-    public void sacuvajKosarkasa(Kosarkas k) {
-        try {
-            broker.uspostaviKonekciju();
-            broker.sacuvajKosarkasa(k);
-            broker.potvrdiTransakciju();
-            broker.raskiniKonekciju();
-        } catch (ClassNotFoundException ex) {
-            Logger.getLogger(Kontroler.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (SQLException ex) {
-           
-        }
+    public void sacuvajKosarkasa(Kosarkas k) throws Exception {
+        OpstaSO so = new DodajKosarkasaSO();
+        so.izvrsiOperaciju(k);
     }
 
-    public List<Kosarkas> vratiListuKosarkasa() {
+    public List<Kosarkas> vratiListuKosarkasa() throws Exception {
         List<Kosarkas> listaKosarkasa = null;
-        try {
-            broker.uspostaviKonekciju();
-            listaKosarkasa = broker.vratiSveKosarkase();
-            broker.raskiniKonekciju();
-        } catch (ClassNotFoundException ex) {
-            Logger.getLogger(Kontroler.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (SQLException ex) {
-            Logger.getLogger(Kontroler.class.getName()).log(Level.SEVERE, null, ex);
-        }
-
+        OpstaSO so = new VratiKosarkaseSO();
+        so.izvrsiOperaciju(new Kosarkas());
+        listaKosarkasa = (List<Kosarkas>) so.getObjekat();
         return listaKosarkasa;
     }
 
-    public void izbrisiKosarkasa(Kosarkas k) {
-        try {
-            broker.uspostaviKonekciju();
-            broker.obrisiIzabranogKosarkasa(k);
-            broker.potvrdiTransakciju();
-            broker.raskiniKonekciju();
-        } catch (ClassNotFoundException ex) {
-            Logger.getLogger(Kontroler.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (SQLException ex) {
-            Logger.getLogger(Kontroler.class.getName()).log(Level.SEVERE, null, ex);
-        }
+    public void izbrisiKosarkasa(Kosarkas k) throws Exception {
+        OpstaSO so = new ObrisiKosarkasaSO();
+        so.izvrsiOperaciju(k);
     }
 
-    public void dodajNovuUtakmicu(Utakmica u) {
-        try {
-            broker.uspostaviKonekciju();
-            broker.dodajUtakmicu(u);
-            broker.potvrdiTransakciju();
-            broker.raskiniKonekciju();
-        } catch (ClassNotFoundException ex) {
-            Logger.getLogger(Kontroler.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (SQLException ex) {
-            Logger.getLogger(Kontroler.class.getName()).log(Level.SEVERE, null, ex);
-        }
-
+    public void dodajNovuUtakmicu(Utakmica u) throws Exception {
+        OpstaSO so = new DodajUtakmicuSO();
+        so.izvrsiOperaciju(u);
     }
     
-    public void azurirajKosarkasa(Kosarkas k) {
-        try {
-            broker.uspostaviKonekciju();
-            broker.azurirajKosarkasa(k);
-            broker.potvrdiTransakciju();
-            broker.raskiniKonekciju();
-        } catch (ClassNotFoundException ex) {
-            Logger.getLogger(Kontroler.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (SQLException ex) {
-            Logger.getLogger(Kontroler.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        
+    public void azurirajKosarkasa(Kosarkas k) throws Exception {
+       OpstaSO so = new IzmeniKosarkasaSO();
+       so.izvrsiOperaciju(k);
     }
     
-    public int vratiIDUtakmice() {
+    public int vratiIDUtakmice() throws Exception {
         int id = 0;
-        try {
-            broker.uspostaviKonekciju();
-            id = broker.vratiBrojUtakmica();
-            broker.raskiniKonekciju();
-        } catch (ClassNotFoundException ex) {
-            Logger.getLogger(Kontroler.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (SQLException ex) {
-            Logger.getLogger(Kontroler.class.getName()).log(Level.SEVERE, null, ex);
-        }
+        OpstaSO so = new VratiIDUtakmiceSO();
+        so.izvrsiOperaciju(new Utakmica());
+        id = (int) so.getObjekat();
         return id;
     }
     
-    public List<Utakmica> vratiUtakmice() {
+    public List<Utakmica> vratiUtakmice() throws Exception {
         List<Utakmica> listaUtakmica = new ArrayList<>();
         
-        try {
-            broker.uspostaviKonekciju();
-            listaUtakmica = broker.vratiUtakmice();
-            broker.raskiniKonekciju();
-        } catch (ClassNotFoundException ex) {
-            Logger.getLogger(Kontroler.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (SQLException ex) {
-            Logger.getLogger(Kontroler.class.getName()).log(Level.SEVERE, null, ex);
-        }
+        OpstaSO so = new VratiUtakmiceSO();
+        so.izvrsiOperaciju(new Utakmica());
+        listaUtakmica = (List<Utakmica>) so.getObjekat();
         
         return listaUtakmica;
     }
     
-    public void izbrisiTim(Tim t) {
-        try {
-            broker.uspostaviKonekciju();
-            broker.azurirajIgraceNakonBrisanjaTima(t);
-            broker.obrisiIzabraniTim(t);
-            broker.potvrdiTransakciju();
-            broker.raskiniKonekciju();
-        } catch (ClassNotFoundException ex) {
-            Logger.getLogger(Kontroler.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (SQLException ex) {
-            Logger.getLogger(Kontroler.class.getName()).log(Level.SEVERE, null, ex);
-        }
+    public void izbrisiTim(Tim t) throws Exception {
+        OpstaSO sop = new AzurirajKosarkaseNakonBrisanjaTimaSO();
+        sop.izvrsiOperaciju(t);
+        OpstaSO so = new ObrisiTimSO();
+        so.izvrsiOperaciju(t);
+        
     } 
     
-    public void azurirajTim(Tim t) {
-        try {
-            broker.uspostaviKonekciju();
-            broker.azurirajTim(t);
-            broker.potvrdiTransakciju();
-            broker.raskiniKonekciju();
-        } catch (ClassNotFoundException ex) {
-            Logger.getLogger(Kontroler.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (SQLException ex) {
-            Logger.getLogger(Kontroler.class.getName()).log(Level.SEVERE, null, ex);
-        }
+    public void azurirajTim(Tim t) throws Exception {
+        OpstaSO so = new IzmeniTimSO();
+        so.izvrsiOperaciju(t); 
     }
     
-    public List<TipUcinka> vratiTipoveUcinaka() {
+    public List<TipUcinka> vratiTipoveUcinaka() throws Exception {
         List<TipUcinka> listaTipova = new ArrayList<>();
-        
-        try {
-            broker.uspostaviKonekciju();
-            listaTipova = broker.vratiTipoveUcinaka();
-            broker.raskiniKonekciju();
-        } catch (ClassNotFoundException ex) {
-            Logger.getLogger(Kontroler.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (SQLException ex) {
-            Logger.getLogger(Kontroler.class.getName()).log(Level.SEVERE, null, ex);
-        }
+        OpstaSO so = new VratiTipoveUcinakaSO();
+        so.izvrsiOperaciju(new TipUcinka());
+        listaTipova = (List<TipUcinka>) so.getObjekat();
         
         return listaTipova;
     }
     
-    public List<Kosarkas> vratiKosarkaseIzJednogTima(Tim t) {
+    public List<Kosarkas> vratiKosarkaseIzJednogTima(Tim t) throws Exception {
         List<Kosarkas> lista = new ArrayList<>();
-        
-        try {
-            broker.uspostaviKonekciju();
-            lista = broker.vratiKosarkaseIzOdredjenogTima(t);
-            broker.raskiniKonekciju();
-        } catch (ClassNotFoundException ex) {
-            Logger.getLogger(Kontroler.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (SQLException ex) {
-            Logger.getLogger(Kontroler.class.getName()).log(Level.SEVERE, null, ex);
-        }
+        OpstaSO so = new VratiKosarkasePremaKriterijumuSO();
+        so.izvrsiOperaciju(t); 
+        lista = (List<Kosarkas>) so.getObjekat();
         
         return lista;
     }
@@ -330,79 +242,47 @@ public class Kontroler {
         
    }
    
-   public List<Ucinak> vratiUcinkeOdredjenogIgracaNaUtakmici(Kosarkas k, Utakmica u) { 
+   public List<Ucinak> vratiUcinkeOdredjenogIgracaNaUtakmici(Kosarkas k, Utakmica u) throws Exception { 
         
        List<Ucinak> listaSvih = new ArrayList<>();
        List<Ucinak> listaJednogIgraca = new ArrayList<>();
        
         try {
-            broker.uspostaviKonekciju();
-            listaSvih = broker.vratiSveUcinkeSaUtakmice(u);
+            //broker.uspostaviKonekciju();
+            OpstaSO so = new VratiUcinkeSaUtakmiceSO();
+            so.izvrsiOperaciju(u);
+            listaSvih = (List<Ucinak>) so.getObjekat();
             for (Ucinak ucinak : listaSvih) {
                 if(ucinak.getKosarkas().equals(k)) {
                     listaJednogIgraca.add(ucinak);
                 }
             }
-            broker.raskiniKonekciju();
-        } catch (ClassNotFoundException ex) {
-            Logger.getLogger(Kontroler.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (SQLException ex) {
+            //broker.raskiniKonekciju();
+        } catch (ClassNotFoundException | SQLException ex) {
             Logger.getLogger(Kontroler.class.getName()).log(Level.SEVERE, null, ex);
         }
            
         return listaJednogIgraca;
     }
    
-   public void dodajNoviTipUcinka(TipUcinka t) {
-        try {
-            broker.uspostaviKonekciju();
-            broker.dodajNoviTipUcinaka(t);
-            broker.potvrdiTransakciju();
-            broker.raskiniKonekciju();
-        } catch (ClassNotFoundException ex) {
-            Logger.getLogger(Kontroler.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (SQLException ex) {
-            Logger.getLogger(Kontroler.class.getName()).log(Level.SEVERE, null, ex);
-        }
+   public void dodajNoviTipUcinka(TipUcinka t) throws Exception {
+        OpstaSO so = new DodajTipUcinkaSO();
+        so.izvrsiOperaciju(t);
    }
    
-   public void izbrisiTipUcinka(TipUcinka tip) {
-        try {
-            broker.uspostaviKonekciju();
-            broker.obrisiTipUcinka(tip);
-            broker.potvrdiTransakciju();
-            broker.raskiniKonekciju();
-        } catch (ClassNotFoundException ex) {
-            Logger.getLogger(Kontroler.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (SQLException ex) {
-            Logger.getLogger(Kontroler.class.getName()).log(Level.SEVERE, null, ex);
-        }
+   public void izbrisiTipUcinka(TipUcinka tip) throws Exception {
+        OpstaSO so = new ObrisiTipUcinkaSO();
+        so.izvrsiOperaciju(tip);
     }
    
-   public void dodajKorisnika(Korisnik k) {
-        try {
-            broker.uspostaviKonekciju();
-            broker.dodajKorisnika(k);
-            broker.potvrdiTransakciju();
-            broker.raskiniKonekciju();
-        } catch (ClassNotFoundException ex) {
-            Logger.getLogger(Kontroler.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (SQLException ex) {
-            Logger.getLogger(Kontroler.class.getName()).log(Level.SEVERE, null, ex);
-        }
+   public void dodajKorisnika(Korisnik k) throws Exception {
+        OpstaSO so = new DodajKorisnikaSo();
+        so.izvrsiOperaciju(k);
    }
    
-   public void promeniLozinkuKorisnika(Korisnik k) {
-        try {
-            broker.uspostaviKonekciju();
-            broker.azurirajLozinku(k);
-            broker.potvrdiTransakciju();
-            broker.raskiniKonekciju();
-        } catch (ClassNotFoundException ex) {
-            Logger.getLogger(Kontroler.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (SQLException ex) {
-            Logger.getLogger(Kontroler.class.getName()).log(Level.SEVERE, null, ex);
-        }
+   public void promeniLozinkuKorisnika(Korisnik k) throws Exception {
+        OpstaSO so = new AzurirajKorisnikaSO();
+        so.izvrsiOperaciju(k);
    }
     
 }

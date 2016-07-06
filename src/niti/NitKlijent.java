@@ -205,13 +205,14 @@ public class NitKlijent extends Thread{
                         toOdgovor.setPoruka("Uspešno vraćeni učinci igrača na utakmici!");
                         
                     case Konstante.IZLOGUJ_SE:
-                        aktivan = false;
-                        aktivniKorisnici.remove((Korisnik) toZahtev.getParametar());
-                        klijenti.remove(this);
-                        TableModelAktivniKorisnici.getInstance().osvezi();
-                        toOdgovor.setPoruka("Uspešno ste se izlogovali!");
-                        toOdgovor.setRezultat(null);
+//                        aktivan = false;
+//                        aktivniKorisnici.remove((Korisnik) toZahtev.getParametar());
+//                        klijenti.remove(this);
+//                        TableModelAktivniKorisnici.getInstance().osvezi();
+//                        toOdgovor.setPoruka("Uspešno ste se izlogovali!");
+//                        toOdgovor.setRezultat(null);
                         
+                        default: System.out.println("Default");
 
                 }
 
