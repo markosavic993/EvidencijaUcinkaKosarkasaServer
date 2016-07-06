@@ -203,14 +203,16 @@ public class NitKlijent extends Thread{
                         Object[] niz = (Object[]) toZahtev.getParametar();
                         toOdgovor.setRezultat(Kontroler.getInstance().vratiUcinkeOdredjenogIgracaNaUtakmici((Kosarkas)niz[0], (Utakmica)niz[1]));
                         toOdgovor.setPoruka("Uspešno vraćeni učinci igrača na utakmici!");
+                        break;
                         
                     case Konstante.IZLOGUJ_SE:
-//                        aktivan = false;
-//                        aktivniKorisnici.remove((Korisnik) toZahtev.getParametar());
-//                        klijenti.remove(this);
-//                        TableModelAktivniKorisnici.getInstance().osvezi();
-//                        toOdgovor.setPoruka("Uspešno ste se izlogovali!");
-//                        toOdgovor.setRezultat(null);
+                        aktivan = false;
+                        aktivniKorisnici.remove((Korisnik) toZahtev.getParametar());
+                        klijenti.remove(this);
+                        TableModelAktivniKorisnici.getInstance().osvezi();
+                        toOdgovor.setPoruka("Uspešno ste se izlogovali!");
+                        toOdgovor.setRezultat(null);
+                        break;
                         
                         default: System.out.println("Default");
 
