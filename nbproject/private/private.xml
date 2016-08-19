@@ -3,10 +3,8 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/C:/Users/Marko/Documents/NetBeansProjects/EvidencijaUcinkaKosarkasaServer/src/so/utakmica/VratiPoeneDomacinaIGostaSO.java</file>
-            <file>file:/C:/Users/Marko/Documents/NetBeansProjects/EvidencijaUcinkaKosarkasaServer/src/so/utakmica/VratiIDUtakmiceSO.java</file>
-            <file>file:/C:/Users/Marko/Documents/NetBeansProjects/EvidencijaUcinkaKosarkasaServer/src/bp/DBBroker.java</file>
-            <file>file:/C:/Users/Marko/Documents/NetBeansProjects/EvidencijaUcinkaKosarkasaServer/src/bp/BrokerBazePodataka.java</file>
+            <file>file:/C:/Users/Marko/Documents/NetBeansProjects/EvidencijaUcinkaKosarkasaServer/src/niti/NitKlijent.java</file>
+            <file>file:/C:/Users/Marko/Documents/NetBeansProjects/EvidencijaUcinkaKosarkasaServer/src/komunikacija/ServerKomunikacija.java</file>
         </group>
     </open-files>
 </project-private>

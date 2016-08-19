@@ -207,7 +207,9 @@ public class NitKlijent extends Thread{
                         
                     case Konstante.IZLOGUJ_SE:
                         aktivan = false;
-                        aktivniKorisnici.remove((Korisnik) toZahtev.getParametar());
+                        if(toZahtev.getParametar() != null) {
+                            aktivniKorisnici.remove((Korisnik) toZahtev.getParametar());
+                        }
                         klijenti.remove(this);
                         TableModelAktivniKorisnici.getInstance().osvezi();
                         toOdgovor.setPoruka("Uspešno ste se izlogovali!");
