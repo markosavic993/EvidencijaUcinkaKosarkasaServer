@@ -22,31 +22,31 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 import so.OpstaSO;
-import so.korisnik.AzurirajKorisnikaSO;
+import so.korisnik.UlogujSeSO;
 import so.korisnik.DodajKorisnikaSo;
 import so.korisnik.VratiSveKorisnikeSO;
 import so.kosarkas.AzurirajKosarkaseNakonBrisanjaTimaSO;
-import so.kosarkas.DodajKosarkasaSO;
+import so.kosarkas.SacuvajKosarkasaSO;
 import so.kosarkas.IzmeniKosarkasaSO;
 import so.kosarkas.ObrisiKosarkasaSO;
-import so.kosarkas.VratiKosarkasePremaKriterijumuSO;
-import so.kosarkas.VratiKosarkaseSO;
-import so.tim.DodajTimSO;
+import so.kosarkas.PretraziKosarkaseSO;
+import so.kosarkas.VratiListuKosarkasaSO;
+import so.tim.SacuvajTimSO;
 import so.tim.IzmeniTimSO;
 import so.tim.ObrisiTimSO;
 import so.tim.VratiIDTimaSO;
-import so.tim.VratiSveTimoveSO;
-import so.tim.VratiTimovePremaKriterijumuSO;
+import so.tim.VratiListuTimovaSO;
+import so.tim.PretraziTimoveSO;
 import so.tip_ucinka.DodajTipUcinkaSO;
 import so.tip_ucinka.ObrisiTipUcinkaSO;
-import so.tip_ucinka.VratiTipoveUcinakaSO;
-import so.ucinak.DodajUcinakSO;
+import so.tip_ucinka.VratiListuTipovaUcinakaSO;
+import so.ucinak.SacuvajUcinakNaUtakmiciSO;
 import so.ucinak.VratiUcinkeSaUtakmiceSO;
 import so.utakmica.AzurirajUtakmicuSO;
 import so.utakmica.DodajUtakmicuSO;
 import so.utakmica.VratiIDUtakmiceSO;
 import so.utakmica.VratiPoeneDomacinaIGostaSO;
-import so.utakmica.VratiUtakmiceSO;
+import so.utakmica.VratiListuUtakmicaSO;
 
 /**
  *
@@ -103,7 +103,7 @@ public class Kontroler {
     public List<Tim> vratiListuTimova() throws Exception {
         List<Tim> listaTimova = null;
 
-        OpstaSO so = new VratiSveTimoveSO();
+        OpstaSO so = new VratiListuTimovaSO();
         so.izvrsiOperaciju(new Tim());
         listaTimova = (List<Tim>) so.getObjekat();
 
@@ -113,7 +113,7 @@ public class Kontroler {
     public List<Tim> vratiListuTimovaPremaKriterijumu(String kriterijum) throws Exception {
         List<Tim> listaTimova = null;
 
-        OpstaSO so = new VratiTimovePremaKriterijumuSO();
+        OpstaSO so = new PretraziTimoveSO();
         so.izvrsiOperaciju(new Tim(kriterijum));
         listaTimova = (List<Tim>) so.getObjekat();
 
@@ -130,18 +130,18 @@ public class Kontroler {
     }
 
     public void sacuvajTim(Tim t) throws Exception {
-        OpstaSO so = new DodajTimSO();
+        OpstaSO so = new SacuvajTimSO();
         so.izvrsiOperaciju(t);
     }
 
     public void sacuvajKosarkasa(Kosarkas k) throws Exception {
-        OpstaSO so = new DodajKosarkasaSO();
+        OpstaSO so = new SacuvajKosarkasaSO();
         so.izvrsiOperaciju(k);
     }
 
     public List<Kosarkas> vratiListuKosarkasa() throws Exception {
         List<Kosarkas> listaKosarkasa = null;
-        OpstaSO so = new VratiKosarkaseSO();
+        OpstaSO so = new VratiListuKosarkasaSO();
         so.izvrsiOperaciju(new Kosarkas());
         listaKosarkasa = (List<Kosarkas>) so.getObjekat();
         return listaKosarkasa;
@@ -173,7 +173,7 @@ public class Kontroler {
     public List<Utakmica> vratiUtakmice() throws Exception {
         List<Utakmica> listaUtakmica = new ArrayList<>();
         
-        OpstaSO so = new VratiUtakmiceSO();
+        OpstaSO so = new VratiListuUtakmicaSO();
         so.izvrsiOperaciju(new Utakmica());
         listaUtakmica = (List<Utakmica>) so.getObjekat();
         
@@ -195,7 +195,7 @@ public class Kontroler {
     
     public List<TipUcinka> vratiTipoveUcinaka() throws Exception {
         List<TipUcinka> listaTipova = new ArrayList<>();
-        OpstaSO so = new VratiTipoveUcinakaSO();
+        OpstaSO so = new VratiListuTipovaUcinakaSO();
         so.izvrsiOperaciju(new TipUcinka());
         listaTipova = (List<TipUcinka>) so.getObjekat();
         
@@ -204,7 +204,7 @@ public class Kontroler {
     
     public List<Kosarkas> vratiKosarkaseIzJednogTima(Tim t) throws Exception {
         List<Kosarkas> lista = new ArrayList<>();
-        OpstaSO so = new VratiKosarkasePremaKriterijumuSO();
+        OpstaSO so = new PretraziKosarkaseSO();
         so.izvrsiOperaciju(t); 
         lista = (List<Kosarkas>) so.getObjekat();
         
@@ -233,7 +233,7 @@ public class Kontroler {
                 u = ucinak.getUtakmica();
 //                broker.ubaciNoviUcinak(ucinak);
 //                broker.potvrdiTransakciju();
-                OpstaSO sisOp = new DodajUcinakSO();
+                OpstaSO sisOp = new SacuvajUcinakNaUtakmiciSO();
                 sisOp.izvrsiOperaciju(ucinak);
             }
             u.setPoeniDomacin(brojPoenaDomacin);
@@ -291,7 +291,7 @@ public class Kontroler {
    }
    
    public void promeniLozinkuKorisnika(Korisnik k) throws Exception {
-        OpstaSO so = new AzurirajKorisnikaSO();
+        OpstaSO so = new UlogujSeSO();
         so.izvrsiOperaciju(k);
    }
     
