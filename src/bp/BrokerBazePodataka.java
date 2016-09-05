@@ -9,7 +9,7 @@ import domen.Korisnik;
 import domen.Kosarkas;
 import domen.Tim;
 import domen.TipUcinka;
-import domen.Ucinak;
+import domen.UcinakKosarkasa;
 import domen.Utakmica;
 import java.sql.Connection;
 import java.sql.Date;
@@ -421,8 +421,8 @@ public class BrokerBazePodataka {
         return lista;
     }
 
-    public List<Ucinak> vratiSveUcinkeSaUtakmice(Utakmica u) {
-        List<Ucinak> lu = new ArrayList<>();
+    public List<UcinakKosarkasa> vratiSveUcinkeSaUtakmice(Utakmica u) {
+        List<UcinakKosarkasa> lu = new ArrayList<>();
         String upit = "SELECT * FROM ucinak u JOIN utakmica ut ON (u.utakmica = ut.id) JOIN kosarkas k ON (u.kosarkas = k.jmbg) JOIN tipucinka t ON (u.tip = t.naziv) JOIN tim tm ON (k.sifratima = tm.sifratima) HAVING u.utakmica = ?";
 
         try {
@@ -435,7 +435,7 @@ public class BrokerBazePodataka {
                 Tim t = new Tim(rs.getInt("sifratima"), rs.getString("naziv"), rs.getInt("godinaosnivanja"), rs.getString("grad"), rs.getString("hala"));
                 Kosarkas k = new Kosarkas(rs.getString("ime"), rs.getString("prezime"), rs.getString("jmbg"), rs.getDate("datumrodjenja"), rs.getString("pozicija"), rs.getInt("broj"), t, rs.getInt("visina"), rs.getInt("tezina"));
                 int vrednost = rs.getInt("vrednost");
-                lu.add(new Ucinak(k, u, tip, vrednost));
+                lu.add(new UcinakKosarkasa(k, u, tip, vrednost));
 
             }
             ps.close();
@@ -447,7 +447,7 @@ public class BrokerBazePodataka {
 
     }
 
-    public void ubaciNoviUcinak(Ucinak u) {
+    public void ubaciNoviUcinak(UcinakKosarkasa u) {
         String upit = "INSERT INTO ucinak(kosarkas, utakmica, tip, vrednost) VALUES (?, ?, ?, ?)";
 
         try {

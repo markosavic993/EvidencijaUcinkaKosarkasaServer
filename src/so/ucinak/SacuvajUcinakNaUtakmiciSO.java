@@ -6,7 +6,7 @@
 package so.ucinak;
 
 import bp.DBBroker;
-import domen.Ucinak;
+import domen.UcinakKosarkasa;
 import so.OpstaSO;
 
 /**
@@ -22,7 +22,7 @@ public class SacuvajUcinakNaUtakmiciSO extends OpstaSO{
 
     @Override
     protected void izvrsiKonkretnuOperaciju(Object objekat) throws Exception {
-        Ucinak u = (Ucinak) objekat;
+        UcinakKosarkasa u = (UcinakKosarkasa) objekat;
         DBBroker.vratiObjekat().sacuvajObjekat(u);
     }
     

@@ -12,7 +12,7 @@ import domen.Korisnik;
 import domen.Kosarkas;
 import domen.Tim;
 import domen.TipUcinka;
-import domen.Ucinak;
+import domen.UcinakKosarkasa;
 import domen.Utakmica;
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -211,7 +211,7 @@ public class Kontroler {
         return lista;
     }
     
-   public void sacuvajListuUcinaka(List<Ucinak> lista) throws Exception {
+   public void sacuvajListuUcinaka(List<UcinakKosarkasa> lista) throws Exception {
        Utakmica u = lista.get(0).getUtakmica();
         try {
             //broker.uspostaviKonekciju();
@@ -220,7 +220,7 @@ public class Kontroler {
             Utakmica utakmica =  (Utakmica) so.getObjekat();
             int brojPoenaDomacin = utakmica.getPoeniDomacin();
             int brojPoenaGost = utakmica.getPoeniGost();
-            for (Ucinak ucinak : lista) {
+            for (UcinakKosarkasa ucinak : lista) {
                 if(ucinak.getTipUcinka().getNaziv().equals("Poeni") && 
                         ucinak.getKosarkas().getTimZaKojiNastupa().equals(ucinak.getUtakmica().getDomacin())) {
                     brojPoenaDomacin+=ucinak.getVrednost();
@@ -252,17 +252,17 @@ public class Kontroler {
         
    }
    
-   public List<Ucinak> vratiUcinkeOdredjenogIgracaNaUtakmici(Kosarkas k, Utakmica u) throws Exception { 
+   public List<UcinakKosarkasa> vratiUcinkeOdredjenogIgracaNaUtakmici(Kosarkas k, Utakmica u) throws Exception { 
         
-       List<Ucinak> listaSvih = new ArrayList<>();
-       List<Ucinak> listaJednogIgraca = new ArrayList<>();
+       List<UcinakKosarkasa> listaSvih = new ArrayList<>();
+       List<UcinakKosarkasa> listaJednogIgraca = new ArrayList<>();
        
         try {
             //broker.uspostaviKonekciju();
             OpstaSO so = new VratiUcinkeSaUtakmiceSO();
             so.izvrsiOperaciju(u);
-            listaSvih = (List<Ucinak>) so.getObjekat();
-            for (Ucinak ucinak : listaSvih) {
+            listaSvih = (List<UcinakKosarkasa>) so.getObjekat();
+            for (UcinakKosarkasa ucinak : listaSvih) {
                 if(ucinak.getKosarkas().equals(k)) {
                     listaJednogIgraca.add(ucinak);
                 }

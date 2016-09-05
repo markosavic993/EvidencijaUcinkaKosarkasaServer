@@ -6,7 +6,7 @@
 package so.ucinak;
 
 import bp.DBBroker;
-import domen.Ucinak;
+import domen.UcinakKosarkasa;
 import domen.Utakmica;
 import so.OpstaSO;
 
@@ -24,7 +24,7 @@ public class VratiUcinkeSaUtakmiceSO extends OpstaSO{
     @Override
     protected void izvrsiKonkretnuOperaciju(Object objekat) throws Exception {
         Utakmica ut = (Utakmica) objekat;
-        Ucinak u = new Ucinak();
+        UcinakKosarkasa u = new UcinakKosarkasa();
         u.setUtakmica(ut);
         super.setObjekat(DBBroker.vratiObjekat().vratiSveObjekte(u));
     }

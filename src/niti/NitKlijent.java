@@ -9,7 +9,7 @@ import domen.Korisnik;
 import domen.Kosarkas;
 import domen.Tim;
 import domen.TipUcinka;
-import domen.Ucinak;
+import domen.UcinakKosarkasa;
 import domen.Utakmica;
 import forme.komponente.TableModelAktivniKorisnici;
 import java.io.IOException;
@@ -53,7 +53,7 @@ public class NitKlijent extends Thread{
     
     private void izvrsenjeOperacija() throws IOException, ClassNotFoundException {
         while (aktivan && !isInterrupted()) {
-            ObjectInputStream inSocket = inSocket = new ObjectInputStream(socket.getInputStream());
+            ObjectInputStream inSocket = new ObjectInputStream(socket.getInputStream());
             TransferObjekatZahtev toZahtev = (TransferObjekatZahtev) inSocket.readObject();
             TransferObjekatOdgovor toOdgovor = new TransferObjekatOdgovor();
 
@@ -125,7 +125,7 @@ public class NitKlijent extends Thread{
                         break;
                         
                     case Konstante.SACUVAJ_LISTU_UCINAKA:
-                        Kontroler.getInstance().sacuvajListuUcinaka((List<Ucinak>) toZahtev.getParametar());
+                        Kontroler.getInstance().sacuvajListuUcinaka((List<UcinakKosarkasa>) toZahtev.getParametar());
                         toOdgovor.setPoruka("Lista učinaka sačuvana");
                         toOdgovor.setRezultat(null);
                         break;

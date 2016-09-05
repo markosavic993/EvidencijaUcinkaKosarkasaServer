@@ -10,7 +10,7 @@ import domen.Korisnik;
 import domen.Kosarkas;
 import domen.Tim;
 import domen.TipUcinka;
-import domen.Ucinak;
+import domen.UcinakKosarkasa;
 import domen.Utakmica;
 import forme.komponente.TableModelAktivniKorisnici;
 import java.io.IOException;

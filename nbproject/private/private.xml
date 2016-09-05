@@ -2,6 +2,13 @@
 <project-private xmlns="http://www.netbeans.org/ns/project-private/1">
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
-        <group/>
+        <group>
+            <file>file:/C:/Users/Marko/Documents/NetBeansProjects/EvidencijaUcinkaKosarkasaServer/src/poslovnalogika/Kontroler.java</file>
+            <file>file:/C:/Users/Marko/Documents/NetBeansProjects/EvidencijaUcinkaKosarkasaServer/src/so/utakmica/VratiPoeneDomacinaIGostaSO.java</file>
+            <file>file:/C:/Users/Marko/Documents/NetBeansProjects/EvidencijaUcinkaKosarkasaServer/src/so/korisnik/UlogujSeSO.java</file>
+            <file>file:/C:/Users/Marko/Documents/NetBeansProjects/EvidencijaUcinkaKosarkasaServer/src/so/kosarkas/SacuvajKosarkasaSO.java</file>
+            <file>file:/C:/Users/Marko/Documents/NetBeansProjects/EvidencijaUcinkaKosarkasaServer/src/bp/DBBroker.java</file>
+            <file>file:/C:/Users/Marko/Documents/NetBeansProjects/EvidencijaUcinkaKosarkasaServer/src/so/OpstaSO.java</file>
+        </group>
     </open-files>
 </project-private>
